@@ -135,6 +135,14 @@ class ViewController: UIViewController {
     }
     
     @objc func didTapView(_ sender: UITapGestureRecognizer) {
+        // hit test 에 영향을 주지 않도록 미리 숨김
+        lineNodes(isHidden: true)
+        defer {
+            lineNodes(isHidden: false)
+        }
+        
+        SCNTransaction.flush()
+
         let touchPoint = sender.location(in: scnView)
         guard let hitResult = scnView.hitTest(touchPoint).first else { return }
         let worldPosition = hitResult.worldCoordinates
@@ -143,6 +151,14 @@ class ViewController: UIViewController {
     }
     
     @objc func didPanView(_ sender: UIPanGestureRecognizer) {
+        // hit test 에 영향을 주지 않도록 미리 숨김
+        lineNodes(isHidden: true)
+        defer {
+            lineNodes(isHidden: false)
+        }
+
+        SCNTransaction.flush()
+
         let touchPoint = sender.location(in: scnView)
         guard let hitResult = scnView.hitTest(touchPoint).first else { return }
         let worldPosition = hitResult.worldCoordinates
@@ -153,9 +169,6 @@ class ViewController: UIViewController {
     func hitTest(worldPosition: SCNVector3) {
         guard !testing else { return }
         testing = true
-
-        // hit test 에 영향을 주지 않도록 미리 삭제
-        lineNode?.removeFromParentNode()
 
         let targetNode = switch1.isOn ? lineStartNode : lineEndNode
         if let targetNode = targetNode {
@@ -177,11 +190,10 @@ class ViewController: UIViewController {
         
         if let lineStartNode = lineStartNode,
            let lineEndNode = lineEndNode {
-            let hitTestOptions: [String: Any]
-            =
-//            [:]
-//            [SCNHitTestOption.ignoreHiddenNodes.rawValue : false]
-            [SCNHitTestOption.searchMode.rawValue : SCNHitTestSearchMode.all.rawValue]
+            let hitTestOptions: [String: Any] = [
+                SCNHitTestOption.searchMode.rawValue : SCNHitTestSearchMode.all.rawValue,
+                SCNHitTestOption.ignoreHiddenNodes.rawValue : true
+            ]
 
             let hitResultList = rootNode.hitTestWithSegment(from: lineStartNode.position, to: lineEndNode.position, options: hitTestOptions)
 
@@ -193,6 +205,7 @@ class ViewController: UIViewController {
             }
             consoleLabel.text = hitText
             
+            lineNode?.removeFromParentNode()
             // hitTest 에 영향을 주지 않도록 끝나고 생성
             let lineNode = createLine(nodeA: lineStartNode.position, nodeB: lineEndNode.position, color: .black, radius: 0.01)
             lineNode.name = "line"
@@ -200,6 +213,12 @@ class ViewController: UIViewController {
             self.lineNode = lineNode
         }
         testing = false
+    }
+    
+    func lineNodes(isHidden: Bool) {
+        lineNode?.isHidden = isHidden
+        lineStartNode?.isHidden = isHidden
+        lineEndNode?.isHidden = isHidden
     }
     
     func createLine(nodeA: SCNVector3, nodeB: SCNVector3, color: UIColor, radius: Float) -> SCNNode {
