@@ -32,6 +32,17 @@ class ViewController: UIViewController {
     enum TestType {
         case hitTest, contactTest
     }
+
+    struct ContactPair: Equatable {
+        var nodeA: String
+        var nodeB: String
+        
+        static func == (lhs:Self, rhs: Self) -> Bool {
+            if lhs.nodeA == rhs.nodeA, lhs.nodeB == rhs.nodeB { return true }
+            if lhs.nodeA == rhs.nodeB, lhs.nodeB == rhs.nodeA { return true }
+            return false
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -279,9 +290,21 @@ class ViewController: UIViewController {
         
         let physicsContactList = scene.physicsWorld.contactTest(with: probePhysicsBody)
         
-        var contactText = ""
+        var contactPairList = [ContactPair]()
         for contact in physicsContactList {
-            contactText += "\(contact.nodeA.name ?? ""), \(contact.nodeB.name ?? "")\n"
+            guard let nameA = contact.nodeA.name,
+                  let nameB = contact.nodeB.name else { continue }
+            
+            let contactPair = ContactPair(nodeA: nameA, nodeB: nameB)
+            
+            if !contactPairList.contains(contactPair) {
+                contactPairList.append(contactPair)
+            }
+        }
+        
+        var contactText = ""
+        for pair in contactPairList {
+            contactText += "\(pair.nodeA), \(pair.nodeB)\n"
         }
         consoleLabel.text = contactText
     }
