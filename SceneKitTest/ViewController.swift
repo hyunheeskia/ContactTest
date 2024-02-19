@@ -168,7 +168,6 @@ class ViewController: UIViewController {
         defer {
             lineNodes(isHidden: false)
         }
-
         probeNode(isHidden: true)
         defer {
             probeNode(isHidden: false)
@@ -198,6 +197,10 @@ class ViewController: UIViewController {
         defer {
             lineNodes(isHidden: false)
         }
+        probeNode(isHidden: true)
+        defer {
+            probeNode(isHidden: false)
+        }
 
         SCNTransaction.flush()
 
@@ -205,12 +208,22 @@ class ViewController: UIViewController {
         guard let hitResult = scnView.hitTest(touchPoint).first else { return }
         let worldPosition = hitResult.worldCoordinates
         
-        hitTest(worldPosition: worldPosition)
+        probeNode?.position = worldPosition
+        
+        SCNTransaction.flush()
+        
+        switch testType {
+        case .hitTest:
+            hitTest(worldPosition: worldPosition)
+        case .contactTest:
+            contactTest()
+        }
     }
 
     func hitTest(worldPosition: SCNVector3) {
         guard !testing else { return }
         testing = true
+        defer { testing = false }
 
         let targetNode = switch1.isOn ? lineStartNode : lineEndNode
         if let targetNode = targetNode {
@@ -254,10 +267,13 @@ class ViewController: UIViewController {
             rootNode.addChildNode(lineNode)
             self.lineNode = lineNode
         }
-        testing = false
     }
     
     func contactTest() {
+        guard !testing else { return }
+        testing = true
+        defer { testing = false }
+
         guard let probePhysicsBody = probeNode?.physicsBody,
               let scene = scnView.scene else { return }
         
