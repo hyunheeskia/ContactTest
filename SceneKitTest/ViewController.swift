@@ -66,6 +66,8 @@ class ViewController: UIViewController {
         testNode1.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
         testNode1.position = SCNVector3(0, 0, -3)
         testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode1, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
+//        testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode1, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
         testNode1.name = "yellow"
         rootNode.addChildNode(testNode1)
 
@@ -73,6 +75,8 @@ class ViewController: UIViewController {
         testNode2.geometry?.firstMaterial?.diffuse.contents = UIColor.green
         testNode2.position = SCNVector3(0.1, 0.3, -3)
         testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode2, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
+//        testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode2, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
         testNode2.name = "green"
         rootNode.addChildNode(testNode2)
 
@@ -80,6 +84,8 @@ class ViewController: UIViewController {
         testNode3.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         testNode3.position = SCNVector3(-0.2, 0, -2.8)
         testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode3, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
+//        testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode3, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
         testNode3.name = "blue"
         rootNode.addChildNode(testNode3)
 
@@ -124,7 +130,9 @@ class ViewController: UIViewController {
     func setupProbeNode() {
         let probeNode = SCNNode(geometry: SCNBox(width: 0.01, height: 0.2, length: 1.0, chamferRadius: 0))
         probeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
+        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
         probeNode.name = "probe"
         rootNode.addChildNode(probeNode)
         self.probeNode = probeNode
