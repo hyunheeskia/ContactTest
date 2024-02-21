@@ -6,14 +6,14 @@
 //
 
 import SceneKit
-import UIKit
 import SceneKit.ModelIO
+import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var scnView: SCNView!
-    @IBOutlet weak var switch1: UISwitch!
-    @IBOutlet weak var switch2: UISwitch!
-    @IBOutlet weak var consoleLabel: UILabel!
+    @IBOutlet var scnView: SCNView!
+    @IBOutlet var switch1: UISwitch!
+    @IBOutlet var switch2: UISwitch!
+    @IBOutlet var consoleLabel: UILabel!
     
     var tapGestureRecognizer: UITapGestureRecognizer!
     var panGestureRecognizer: UIPanGestureRecognizer!
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         var nodeA: String
         var nodeB: String
         
-        static func == (lhs:Self, rhs: Self) -> Bool {
+        static func == (lhs: Self, rhs: Self) -> Bool {
             if lhs.nodeA == rhs.nodeA, lhs.nodeB == rhs.nodeB { return true }
             if lhs.nodeA == rhs.nodeB, lhs.nodeB == rhs.nodeA { return true }
             return false
@@ -50,10 +50,13 @@ class ViewController: UIViewController {
 
         prepareGestureRecognizers()
         setupScene()
-        setupScene1()
-//        setupScene2()
-        setupProbeNode()
+        setupSkinBox()
+        setupSpheresInSkinBox()
+//        setupSpheresInLine()
         setupCustomObj()
+        if testType == .contactTest {
+            setupProbeNode()
+        }
     }
     
     func setupScene() {
@@ -66,7 +69,7 @@ class ViewController: UIViewController {
         rootNode = scnView.scene!.rootNode
     }
     
-    func setupScene1() {
+    func setupSkinBox() {
         // skinNode
         skinNode = SCNNode(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1))
         skinNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
@@ -74,43 +77,38 @@ class ViewController: UIViewController {
         skinNode.name = "skin"
         skinNode.position = SCNVector3(0, 0, -3)
         rootNode.addChildNode(skinNode)
-        
+    }
+    
+    func setupSpheresInSkinBox() {
         let testNode1 = SCNNode(geometry: SCNSphere(radius: 0.1))
         testNode1.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
         testNode1.position = SCNVector3(0, 0, -3)
-        testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
 //        testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode1, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
-//        testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode1, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
+        testNode1.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode1, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         testNode1.name = "yellow"
         rootNode.addChildNode(testNode1)
 
         let testNode2 = SCNNode(geometry: SCNSphere(radius: 0.1))
         testNode2.geometry?.firstMaterial?.diffuse.contents = UIColor.green
         testNode2.position = SCNVector3(0.1, 0.3, -3)
-        testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
 //        testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode2, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
-//        testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode2, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
+        testNode2.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode2, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         testNode2.name = "green"
         rootNode.addChildNode(testNode2)
 
         let testNode3 = SCNNode(geometry: SCNSphere(radius: 0.1))
         testNode3.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         testNode3.position = SCNVector3(-0.2, 0, -2.8)
-        testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
 //        testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode3, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
-//        testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode3, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
+        testNode3.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: testNode3, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         testNode3.name = "blue"
         rootNode.addChildNode(testNode3)
-
-//        let testNode4 = SCNNode(geometry: SCNSphere(radius: 0.1))
-//        testNode4.geometry?.firstMaterial?.diffuse.contents = UIColor.brown
-//        testNode4.position = SCNVector3(-0.2, 0, -2.8)
-//        testNode4.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-//        testNode4.name = "brown"
-//        rootNode.addChildNode(testNode4)
     }
     
-    func setupScene2() {
+    func setupSpheresInLine() {
         let testNode1 = SCNNode(geometry: SCNSphere(radius: 0.1))
         testNode1.geometry?.firstMaterial?.diffuse.contents = UIColor.red
         testNode1.position = SCNVector3(0, 0, -3)
@@ -169,7 +167,7 @@ class ViewController: UIViewController {
         customNode.position = SCNVector3(0, 0, -3)
 //        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
 //        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: customNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
-        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: customNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
+        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: customNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         rootNode.addChildNode(customNode)
         print("success")
     }
@@ -215,15 +213,11 @@ class ViewController: UIViewController {
         guard let hitResult = scnView.hitTest(touchPoint).first else { return }
         let worldPosition = hitResult.worldCoordinates
         
-        probeNode?.position = worldPosition
-        
-        SCNTransaction.flush()
-        
         switch testType {
         case .hitTest:
             hitTest(worldPosition: worldPosition)
         case .contactTest:
-            contactTest()
+            contactTest(probePosition: worldPosition)
         }
     }
     
@@ -244,15 +238,11 @@ class ViewController: UIViewController {
         guard let hitResult = scnView.hitTest(touchPoint).first else { return }
         let worldPosition = hitResult.worldCoordinates
         
-        probeNode?.position = worldPosition
-        
-        SCNTransaction.flush()
-        
         switch testType {
         case .hitTest:
             hitTest(worldPosition: worldPosition)
         case .contactTest:
-            contactTest()
+            contactTest(probePosition: worldPosition)
         }
     }
 
@@ -280,10 +270,11 @@ class ViewController: UIViewController {
         }
         
         if let lineStartNode = lineStartNode,
-           let lineEndNode = lineEndNode {
+           let lineEndNode = lineEndNode
+        {
             let hitTestOptions: [String: Any] = [
-                SCNHitTestOption.searchMode.rawValue : SCNHitTestSearchMode.all.rawValue,
-                SCNHitTestOption.ignoreHiddenNodes.rawValue : true
+                SCNHitTestOption.searchMode.rawValue: SCNHitTestSearchMode.all.rawValue,
+                SCNHitTestOption.ignoreHiddenNodes.rawValue: true
             ]
 
             let hitResultList = rootNode.hitTestWithSegment(from: lineStartNode.position, to: lineEndNode.position, options: hitTestOptions)
@@ -305,10 +296,14 @@ class ViewController: UIViewController {
         }
     }
     
-    func contactTest() {
+    func contactTest(probePosition: SCNVector3) {
         guard !testing else { return }
         testing = true
         defer { testing = false }
+        
+        probeNode?.position = probePosition
+        
+        SCNTransaction.flush()
 
         guard let probePhysicsBody = probeNode?.physicsBody,
               let scene = scnView.scene else { return }
