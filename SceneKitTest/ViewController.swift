@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet var switch1: UISwitch!
     @IBOutlet var switch2: UISwitch!
     @IBOutlet var consoleLabel: UILabel!
+    @IBOutlet var testTypeSegmentedControl: UISegmentedControl!
     
     var tapGestureRecognizer: UITapGestureRecognizer!
     var panGestureRecognizer: UIPanGestureRecognizer!
@@ -28,9 +29,8 @@ class ViewController: UIViewController {
     var lineNode: SCNNode?
     
     var testing = false
-    var testType: TestType = .contactTest
     
-    enum TestType {
+    enum TestType: Int {
         case hitTest, contactTest
     }
 
@@ -54,9 +54,7 @@ class ViewController: UIViewController {
         setupSpheresInSkinBox()
 //        setupSpheresInLine()
         setupCustomObj()
-        if testType == .contactTest {
-            setupProbeNode()
-        }
+        setupProbeNode()
     }
     
     func setupScene() {
@@ -197,16 +195,20 @@ class ViewController: UIViewController {
     }
     
     @objc func didTapView(_ sender: UITapGestureRecognizer) {
+        guard let testType = TestType(rawValue: testTypeSegmentedControl.selectedSegmentIndex) else { return }
+
         // hit test 에 영향을 주지 않도록 미리 숨김
         lineNodes(isHidden: true)
-        defer {
-            lineNodes(isHidden: false)
-        }
         probeNode(isHidden: true)
         defer {
-            probeNode(isHidden: false)
+            switch testType {
+            case .hitTest:
+                lineNodes(isHidden: false)
+            case .contactTest:
+                probeNode(isHidden: false)
+            }
         }
-        
+
         SCNTransaction.flush()
 
         let touchPoint = sender.location(in: scnView)
@@ -222,14 +224,18 @@ class ViewController: UIViewController {
     }
     
     @objc func didPanView(_ sender: UIPanGestureRecognizer) {
+        guard let testType = TestType(rawValue: testTypeSegmentedControl.selectedSegmentIndex) else { return }
+
         // hit test 에 영향을 주지 않도록 미리 숨김
         lineNodes(isHidden: true)
-        defer {
-            lineNodes(isHidden: false)
-        }
         probeNode(isHidden: true)
         defer {
-            probeNode(isHidden: false)
+            switch testType {
+            case .hitTest:
+                lineNodes(isHidden: false)
+            case .contactTest:
+                probeNode(isHidden: false)
+            }
         }
 
         SCNTransaction.flush()

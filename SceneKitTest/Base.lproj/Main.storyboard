@@ -44,6 +44,14 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lRg-O6-30i">
+                                <rect key="frame" x="898" y="758" width="189" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="HitTest"/>
+                                    <segment title="ContactTest"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -53,6 +61,7 @@
                         <outlet property="scnView" destination="olw-9c-ug3" id="1Rf-Dp-2n2"/>
                         <outlet property="switch1" destination="fmN-zs-l3C" id="rlE-VO-Qva"/>
                         <outlet property="switch2" destination="C3L-Cb-ZSF" id="DDq-jf-Z5y"/>
+                        <outlet property="testTypeSegmentedControl" destination="lRg-O6-30i" id="Q7W-dO-RBc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
