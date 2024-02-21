@@ -7,6 +7,7 @@
 
 import SceneKit
 import UIKit
+import SceneKit.ModelIO
 
 class ViewController: UIViewController {
     @IBOutlet weak var scnView: SCNView!
@@ -52,6 +53,7 @@ class ViewController: UIViewController {
         setupScene1()
 //        setupScene2()
         setupProbeNode()
+        setupCustomObj()
     }
     
     func setupScene() {
@@ -141,12 +143,35 @@ class ViewController: UIViewController {
     func setupProbeNode() {
         let probeNode = SCNNode(geometry: SCNBox(width: 0.01, height: 0.2, length: 1.0, chamferRadius: 0))
         probeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-//        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
 //        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
-        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
+//        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
         probeNode.name = "probe"
         rootNode.addChildNode(probeNode)
         self.probeNode = probeNode
+    }
+    
+    func setupCustomObj() {
+        guard let objFilePath = Bundle.main.path(forResource: "Bone", ofType: "obj") else {
+            print("file path fail")
+            return
+        }
+        
+        let asset = MDLAsset(url: URL(fileURLWithPath: objFilePath))
+        guard let mesh = asset.object(at: 0) as? MDLMesh else {
+            print("mesh fail")
+            return
+        }
+        
+        let customNode = SCNNode(geometry: SCNGeometry(mdlMesh: mesh))
+        customNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+        customNode.name = "bone"
+        customNode.position = SCNVector3(0, 0, -3)
+//        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: customNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
+        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: customNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron]))
+        rootNode.addChildNode(customNode)
+        print("success")
     }
     
     func prepareGestureRecognizers() {

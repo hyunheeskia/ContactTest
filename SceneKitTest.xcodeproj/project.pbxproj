@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B21C9C542B85C36500E07939 /* Bone.obj in Resources */ = {isa = PBXBuildFile; fileRef = B21C9C532B85C36500E07939 /* Bone.obj */; };
 		B233E37A2B7C919600BD56AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E3792B7C919600BD56AB /* AppDelegate.swift */; };
 		B233E37C2B7C919600BD56AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E37B2B7C919600BD56AB /* SceneDelegate.swift */; };
 		B233E37E2B7C919600BD56AB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E37D2B7C919600BD56AB /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B21C9C532B85C36500E07939 /* Bone.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bone.obj; sourceTree = "<group>"; };
 		B233E3762B7C919600BD56AB /* SceneKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B233E3792B7C919600BD56AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B233E37B2B7C919600BD56AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				B233E3822B7C919700BD56AB /* Assets.xcassets */,
 				B233E3842B7C919700BD56AB /* LaunchScreen.storyboard */,
 				B233E3872B7C919700BD56AB /* Info.plist */,
+				B21C9C532B85C36500E07939 /* Bone.obj */,
 			);
 			path = SceneKitTest;
 			sourceTree = "<group>";
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B21C9C542B85C36500E07939 /* Bone.obj in Resources */,
 				B233E3862B7C919700BD56AB /* LaunchScreen.storyboard in Resources */,
 				B233E3832B7C919700BD56AB /* Assets.xcassets in Resources */,
 				B233E3812B7C919600BD56AB /* Main.storyboard in Resources */,
