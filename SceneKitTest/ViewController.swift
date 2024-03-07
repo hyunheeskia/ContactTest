@@ -30,6 +30,8 @@ class ViewController: UIViewController {
     
     var testing = false
     
+    let scale: Double = 0.1
+    
     enum TestType: Int {
         case hitTest, contactTest
     }
@@ -51,17 +53,22 @@ class ViewController: UIViewController {
         prepareGestureRecognizers()
         setupScene()
         setupSkinBox()
-        setupSpheresInSkinBox()
+//        setupSpheresInSkinBox()
 //        setupSpheresInLine()
-        setupCustomObj()
-        setupProbeNode()
+//        setupCustomObj()
+//        setupProbeNode()
+        setupLesion()
+        setupCustomProbeNode()
     }
     
     func setupScene() {
         scnView.scene = SCNScene()
-        scnView.scene!.rootNode.camera = SCNCamera()
+        let camera = SCNCamera()
+        camera.zFar = 350
+        scnView.scene!.rootNode.camera = camera
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
+        scnView.backgroundColor = .green
 
         // rootNode
         rootNode = scnView.scene!.rootNode
@@ -69,11 +76,11 @@ class ViewController: UIViewController {
     
     func setupSkinBox() {
         // skinNode
-        skinNode = SCNNode(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1))
+        skinNode = SCNNode(geometry: SCNBox(width: 100 * scale, height: 100 * scale, length: 100 * scale, chamferRadius: 0))
         skinNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
-        skinNode.geometry?.firstMaterial?.transparency = 0.5
+        skinNode.geometry?.firstMaterial?.transparency = 0.7
         skinNode.name = "skin"
-        skinNode.position = SCNVector3(0, 0, -3)
+        skinNode.position = SCNVector3(0, 0, -300 * scale)
         rootNode.addChildNode(skinNode)
     }
     
@@ -147,6 +154,15 @@ class ViewController: UIViewController {
         self.probeNode = probeNode
     }
     
+    func setupCustomProbeNode() {
+        let geometry = customProbeGeometry()
+        let probeNode = SCNNode(geometry: geometry)
+        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        probeNode.name = "probe"
+        rootNode.addChildNode(probeNode)
+        self.probeNode = probeNode
+    }
+    
     func setupCustomObj() {
         guard let objFilePath = Bundle.main.path(forResource: "Bone", ofType: "obj") else {
             print("file path fail")
@@ -167,6 +183,35 @@ class ViewController: UIViewController {
 //        customNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: customNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.convexHull]))
         customNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: customNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         rootNode.addChildNode(customNode)
+        print("success")
+    }
+    
+    func setupLesion() {
+        guard let objFilePath = Bundle.main.path(forResource: "Lesion", ofType: "obj") else {
+            print("file path fail")
+            return
+        }
+        
+        let asset = MDLAsset(url: URL(fileURLWithPath: objFilePath))
+        guard let mesh = asset.object(at: 0) as? MDLMesh else {
+            print("mesh fail")
+            return
+        }
+        
+        let lesionNode = SCNNode(geometry: SCNGeometry(mdlMesh: mesh))
+        lesionNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+        lesionNode.name = "lesion"
+        lesionNode.position = SCNVector3(0, 0, -300)
+        
+        let scaleNode = SCNNode()
+        scaleNode.scale = SCNVector3(scale, scale, scale)
+        scaleNode.addChildNode(lesionNode)
+        rootNode.addChildNode(scaleNode)
+
+        lesionNode.physicsBody
+                = SCNPhysicsBody(type: .static,
+                shape: SCNPhysicsShape(node: lesionNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron, SCNPhysicsShape.Option.scale : SCNVector3(scale, scale, scale) ]))
+
         print("success")
     }
     
@@ -353,5 +398,46 @@ class ViewController: UIViewController {
         node.position = SCNVector3Make((nodeA.x + nodeB.x) / 2, (nodeA.y + nodeB.y) / 2, (nodeA.z + nodeB.z) / 2)
         node.eulerAngles = SCNVector3Make(Float(Double.pi / 2), acos((nodeB.z - nodeA.z) / height), atan2(nodeB.y - nodeA.y, nodeB.x - nodeA.x))
         return node
+    }
+    
+    func customProbeGeometry() -> SCNGeometry {
+        let halfAngle: Float = 5 * Float.pi / 180
+        let height: Float = 100.0 * Float(scale)
+        let halfLength: Float = 1 * Float(scale)
+        let halfWidth = Float(height * tan(halfAngle))
+
+        let origin = SCNVector3Zero
+        let floor1 = SCNVector3(halfWidth, halfLength, -height)
+        let floor2 = SCNVector3(halfWidth, -halfLength, -height)
+        let floor3 = SCNVector3(-halfWidth, -halfLength, -height)
+        let floor4 = SCNVector3(-halfWidth, halfLength, -height)
+
+        let vertices = [
+            origin,
+            floor1,
+            floor2,
+            floor3,
+            floor4
+        ]
+
+        let sources = SCNGeometrySource(vertices: vertices)
+
+        // 반시계방향
+        let index: [Int32] = [
+            0, 2, 1, // 옆면들
+            0, 3, 2,
+            0, 4, 3,
+            0, 1, 4,
+            1, 2, 3, 1, 3, 4 // 아랫면
+        ]
+
+        let elements = SCNGeometryElement(indices: index,
+                                          primitiveType: .triangles)
+
+        let geometry = SCNGeometry(sources: [sources],
+                                   elements: [elements])
+
+        geometry.firstMaterial?.diffuse.contents = UIColor.yellow
+        return geometry
     }
 }

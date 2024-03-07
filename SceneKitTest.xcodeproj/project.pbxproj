@@ -14,6 +14,7 @@
 		B233E3812B7C919600BD56AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B233E37F2B7C919600BD56AB /* Main.storyboard */; };
 		B233E3832B7C919700BD56AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B233E3822B7C919700BD56AB /* Assets.xcassets */; };
 		B233E3862B7C919700BD56AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B233E3842B7C919700BD56AB /* LaunchScreen.storyboard */; };
+		B2B3F34D2B987E0700A15A0C /* Lesion.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2B3F34C2B987E0700A15A0C /* Lesion.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		B233E3822B7C919700BD56AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B233E3852B7C919700BD56AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B233E3872B7C919700BD56AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2B3F34C2B987E0700A15A0C /* Lesion.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Lesion.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				B233E3842B7C919700BD56AB /* LaunchScreen.storyboard */,
 				B233E3872B7C919700BD56AB /* Info.plist */,
 				B21C9C532B85C36500E07939 /* Bone.obj */,
+				B2B3F34C2B987E0700A15A0C /* Lesion.obj */,
 			);
 			path = SceneKitTest;
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2B3F34D2B987E0700A15A0C /* Lesion.obj in Resources */,
 				B21C9C542B85C36500E07939 /* Bone.obj in Resources */,
 				B233E3862B7C919700BD56AB /* LaunchScreen.storyboard in Resources */,
 				B233E3832B7C919700BD56AB /* Assets.xcassets in Resources */,
