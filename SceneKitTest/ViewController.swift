@@ -96,7 +96,8 @@ class ViewController: UIViewController {
     func setupCustomProbeNode() {
         let geometry = customProbeGeometry()
         let probeNode = SCNNode(geometry: geometry)
-        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         probeNode.name = "probe"
         rootNode.addChildNode(probeNode)
         self.probeNode = probeNode
