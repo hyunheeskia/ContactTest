@@ -96,8 +96,8 @@ class ViewController: UIViewController {
     func setupCustomProbeNode() {
         let geometry = customProbeGeometry()
         let probeNode = SCNNode(geometry: geometry)
-//        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
+        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        probeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: probeNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         probeNode.name = "probe"
         rootNode.addChildNode(probeNode)
         self.probeNode = probeNode
@@ -289,7 +289,10 @@ class ViewController: UIViewController {
     }
     
     func customProbeGeometry() -> SCNGeometry {
-        return SCNBox(width: 0.002, height: 0.02, length: 0.1, chamferRadius: 0)
+//        return SCNBox(width: 0.002, height: 0.02, length: 0.1, chamferRadius: 0)
+//        return SCNPyramid(width: 0.005, height: 0.1, length: 0.02)
+//        return SCNSphere(radius: 0.04)
+//        return SCNCone(topRadius: 0, bottomRadius: 0.02, height: 0.1)
 
         let halfAngle: Float = 10 * Float.pi / 180
         let height: Float = 0.1
