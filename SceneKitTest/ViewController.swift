@@ -333,4 +333,8 @@ class ViewController: UIViewController {
         geometry.firstMaterial?.diffuse.contents = UIColor.yellow
         return geometry
     }
+    
+    @IBAction func skinSwitch(_ sender: UISwitch) {
+        skinNode.isHidden = !sender.isOn
+    }
 }
