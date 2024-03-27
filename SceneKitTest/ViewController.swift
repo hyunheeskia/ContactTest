@@ -83,7 +83,8 @@ class ViewController: UIViewController {
         movableNode = SCNNode(geometry:
 //                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
 //                              smallLesionGeometry()
-                              pyramidGeometry()
+//                              pyramidGeometry()
+                              smallSphereGeometry()
         )
         movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
@@ -92,8 +93,8 @@ class ViewController: UIViewController {
         // physics
         movableNode.physicsBody =
             SCNPhysicsBody(type: .static, shape:
-//                            nil
-                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
+                            nil
+//                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
             )
         
         rootNode.addChildNode(movableNode)
@@ -110,6 +111,10 @@ class ViewController: UIViewController {
         }
         
         return SCNGeometry(mdlMesh: mesh)
+    }
+    
+    func smallSphereGeometry() -> SCNGeometry {
+        return SCNSphere(radius: 0.005)
     }
     
     func pyramidGeometry() -> SCNGeometry {
