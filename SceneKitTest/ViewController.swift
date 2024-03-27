@@ -74,8 +74,9 @@ class ViewController: UIViewController {
     func setupMovableNode() {
         // create node
         movableNode = SCNNode(geometry:
-//            SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
-            smallLesionGeometry()
+//                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
+//                              smallLesionGeometry()
+                              pyramidGeometry()
         )
         movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
@@ -102,6 +103,10 @@ class ViewController: UIViewController {
         }
         
         return SCNGeometry(mdlMesh: mesh)
+    }
+    
+    func pyramidGeometry() -> SCNGeometry {
+        return SCNPyramid(width: 0.05, height: 0.05, length: 0.01)
     }
 
     func contactTest() {
