@@ -83,8 +83,8 @@ class ViewController: UIViewController {
         movableNode = SCNNode(geometry:
 //                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
 //                              smallLesionGeometry()
-//                              pyramidGeometry()
-                              smallSphereGeometry()
+                              pyramidGeometry()
+//                              smallSphereGeometry()
         )
         movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
