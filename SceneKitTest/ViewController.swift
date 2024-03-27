@@ -6,6 +6,7 @@
 //
 //
 import SceneKit
+import SceneKit.ModelIO
 import UIKit
 
 class ViewController: UIViewController {
@@ -72,16 +73,35 @@ class ViewController: UIViewController {
     
     func setupMovableNode() {
         // create node
-        movableNode = SCNNode(geometry: SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0))
+        movableNode = SCNNode(geometry:
+//            SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
+            smallLesionGeometry()
+        )
         movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
         movableNode.position = SCNVector3(0.3, 0, -0.8)
 
         // physics
         movableNode.physicsBody =
-            SCNPhysicsBody(type: .static, shape: nil)
+            SCNPhysicsBody(type: .static, shape:
+//                            nil
+                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
+            )
         
         rootNode.addChildNode(movableNode)
+    }
+    
+    func smallLesionGeometry() -> SCNGeometry {
+        guard let objFilePath = Bundle.main.path(forResource: "0.001_lesion", ofType: "obj") else {
+            fatalError("file path fail")
+        }
+        
+        let asset = MDLAsset(url: URL(fileURLWithPath: objFilePath))
+        guard let mesh = asset.object(at: 0) as? MDLMesh else {
+            fatalError("mesh fail")
+        }
+        
+        return SCNGeometry(mdlMesh: mesh)
     }
 
     func contactTest() {

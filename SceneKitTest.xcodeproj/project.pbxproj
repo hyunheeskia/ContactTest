@@ -8,17 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		B21C9C542B85C36500E07939 /* Bone.obj in Resources */ = {isa = PBXBuildFile; fileRef = B21C9C532B85C36500E07939 /* Bone.obj */; };
+		B2237A532BB3D8030072DAA7 /* 0.001_lesion.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2237A522BB3D8030072DAA7 /* 0.001_lesion.obj */; };
 		B233E37A2B7C919600BD56AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E3792B7C919600BD56AB /* AppDelegate.swift */; };
 		B233E37C2B7C919600BD56AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E37B2B7C919600BD56AB /* SceneDelegate.swift */; };
 		B233E37E2B7C919600BD56AB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E37D2B7C919600BD56AB /* ViewController.swift */; };
 		B233E3812B7C919600BD56AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B233E37F2B7C919600BD56AB /* Main.storyboard */; };
 		B233E3832B7C919700BD56AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B233E3822B7C919700BD56AB /* Assets.xcassets */; };
 		B233E3862B7C919700BD56AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B233E3842B7C919700BD56AB /* LaunchScreen.storyboard */; };
-		B2B3F34D2B987E0700A15A0C /* Lesion.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2B3F34C2B987E0700A15A0C /* Lesion.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B21C9C532B85C36500E07939 /* Bone.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bone.obj; sourceTree = "<group>"; };
+		B2237A522BB3D8030072DAA7 /* 0.001_lesion.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 0.001_lesion.obj; sourceTree = "<group>"; };
 		B233E3762B7C919600BD56AB /* SceneKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B233E3792B7C919600BD56AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B233E37B2B7C919600BD56AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -27,7 +28,6 @@
 		B233E3822B7C919700BD56AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B233E3852B7C919700BD56AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B233E3872B7C919700BD56AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B2B3F34C2B987E0700A15A0C /* Lesion.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Lesion.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,7 @@
 				B233E3842B7C919700BD56AB /* LaunchScreen.storyboard */,
 				B233E3872B7C919700BD56AB /* Info.plist */,
 				B21C9C532B85C36500E07939 /* Bone.obj */,
-				B2B3F34C2B987E0700A15A0C /* Lesion.obj */,
+				B2237A522BB3D8030072DAA7 /* 0.001_lesion.obj */,
 			);
 			path = SceneKitTest;
 			sourceTree = "<group>";
@@ -131,7 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2B3F34D2B987E0700A15A0C /* Lesion.obj in Resources */,
+				B2237A532BB3D8030072DAA7 /* 0.001_lesion.obj in Resources */,
 				B21C9C542B85C36500E07939 /* Bone.obj in Resources */,
 				B233E3862B7C919700BD56AB /* LaunchScreen.storyboard in Resources */,
 				B233E3832B7C919700BD56AB /* Assets.xcassets in Resources */,
