@@ -59,14 +59,21 @@ class ViewController: UIViewController {
     
     func setupFixedNode() {
         // create node
-        fixedNode = SCNNode(geometry: SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0))
+        fixedNode = SCNNode(geometry:
+//                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
+                              smallLesionGeometry()
+//                              pyramidGeometry()
+        )
         fixedNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
         fixedNode.name = "fixed"
         fixedNode.position = SCNVector3(0, 0, -0.8)
         
         // physics
         fixedNode.physicsBody =
-            SCNPhysicsBody(type: .static, shape: nil)
+            SCNPhysicsBody(type: .static, shape:
+//                            nil
+                           SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
+            )
         
         rootNode.addChildNode(fixedNode)
     }
