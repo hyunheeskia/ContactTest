@@ -71,8 +71,9 @@ class ViewController: UIViewController {
         // physics
         fixedNode.physicsBody =
             SCNPhysicsBody(type: .static, shape:
+                            SCNPhysicsShape(geometry: smallSphereGeometry())
 //                            nil
-                SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
+//                SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
 //                           SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
             )
         
@@ -142,8 +143,8 @@ class ViewController: UIViewController {
 
         // nil 정상 범위 감지
 //        return SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
-        return SCNSphere(radius: 0.005)
-        //        return SCNPlane(width: 0.01, height: 0.01)
+//        return SCNSphere(radius: 0.005)
+                return SCNPlane(width: 0.01, height: 0.05)
         //        return SCNCylinder(radius: 0.01, height: 0.01)
         //        return SCNTube(innerRadius: 0.005, outerRadius: 0.01, height: 0.005)
     }
