@@ -68,14 +68,22 @@ class ViewController: UIViewController {
         fixedNode.name = "fixed"
         fixedNode.position = SCNVector3(0, 0, -0.8)
         
+        let (center, radius) = fixedNode.boundingSphere
+        
+        let physicsBodyNode = SCNNode()
+        physicsBodyNode.name = "fixedPhysics"
+        physicsBodyNode.position = center
+        physicsBodyNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: SCNSphere(radius: CGFloat(radius))))
+        fixedNode.addChildNode(physicsBodyNode)
+        
         // physics
-        fixedNode.physicsBody =
-            SCNPhysicsBody(type: .static, shape:
-                            SCNPhysicsShape(geometry: smallSphereGeometry())
-//                            nil
-//                SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
-//                           SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
-            )
+//        fixedNode.physicsBody =
+//            SCNPhysicsBody(type: .static, shape:
+//                            SCNPhysicsShape(geometry: smallSphereGeometry())
+        ////                            nil
+        ////                SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
+        ////                           SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
+//            )
         
         rootNode.addChildNode(fixedNode)
     }
@@ -146,7 +154,7 @@ class ViewController: UIViewController {
         // nil 정상 범위 감지
 //        return SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
 //        return SCNSphere(radius: 0.005)
-                return SCNPlane(width: 0.01, height: 0.05)
+        return SCNPlane(width: 0.01, height: 0.05)
         //        return SCNCylinder(radius: 0.01, height: 0.01)
         //        return SCNTube(innerRadius: 0.005, outerRadius: 0.01, height: 0.005)
     }
