@@ -15,6 +15,7 @@
 		B233E3812B7C919600BD56AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B233E37F2B7C919600BD56AB /* Main.storyboard */; };
 		B233E3832B7C919700BD56AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B233E3822B7C919700BD56AB /* Assets.xcassets */; };
 		B233E3862B7C919700BD56AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B233E3842B7C919700BD56AB /* LaunchScreen.storyboard */; };
+		B269996A2BBA89510093C07E /* not_origin_0.001_lesion.obj in Resources */ = {isa = PBXBuildFile; fileRef = B26999692BBA89510093C07E /* not_origin_0.001_lesion.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		B233E3822B7C919700BD56AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B233E3852B7C919700BD56AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B233E3872B7C919700BD56AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B26999692BBA89510093C07E /* not_origin_0.001_lesion.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = not_origin_0.001_lesion.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				B233E3872B7C919700BD56AB /* Info.plist */,
 				B21C9C532B85C36500E07939 /* Bone.obj */,
 				B2237A522BB3D8030072DAA7 /* 0.001_lesion.obj */,
+				B26999692BBA89510093C07E /* not_origin_0.001_lesion.obj */,
 			);
 			path = SceneKitTest;
 			sourceTree = "<group>";
@@ -134,6 +137,7 @@
 				B2237A532BB3D8030072DAA7 /* 0.001_lesion.obj in Resources */,
 				B21C9C542B85C36500E07939 /* Bone.obj in Resources */,
 				B233E3862B7C919700BD56AB /* LaunchScreen.storyboard in Resources */,
+				B269996A2BBA89510093C07E /* not_origin_0.001_lesion.obj in Resources */,
 				B233E3832B7C919700BD56AB /* Assets.xcassets in Resources */,
 				B233E3812B7C919600BD56AB /* Main.storyboard in Resources */,
 			);

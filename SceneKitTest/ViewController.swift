@@ -106,7 +106,9 @@ class ViewController: UIViewController {
     }
     
     func smallLesionGeometry() -> SCNGeometry {
-        guard let objFilePath = Bundle.main.path(forResource: "0.001_lesion", ofType: "obj") else {
+//        let fileName = "0.001_lesion"
+        let fileName = "not_origin_0.001_lesion"
+        guard let objFilePath = Bundle.main.path(forResource: fileName, ofType: "obj") else {
             fatalError("file path fail")
         }
         
