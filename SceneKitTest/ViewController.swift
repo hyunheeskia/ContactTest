@@ -93,10 +93,11 @@ class ViewController: UIViewController {
         movableNode = SCNNode(geometry:
 //                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
 //                              smallLesionGeometry()
-            smallShapeGeometry()
+//            smallShapeGeometry()
 //                              pyramidGeometry()
 //                              smallSphereGeometry()
 //                              smallBoxGeometry()
+                              probeShapeGeometry()
         )
         movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
@@ -105,8 +106,8 @@ class ViewController: UIViewController {
         // physics
         movableNode.physicsBody =
             SCNPhysicsBody(type: .static, shape:
-                nil
-//                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
+//                nil
+                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
 //                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
             )
         
@@ -160,7 +161,31 @@ class ViewController: UIViewController {
     }
 
     func pyramidGeometry() -> SCNGeometry {
-        return SCNPyramid(width: 0.05, height: 0.05, length: 0.01)
+        return SCNPyramid(width: 0.05, height: 0.05, length: 0.001)
+    }
+    
+    func probeShapeGeometry() -> SCNGeometry {
+        let side: Float = 0.05
+        let angle = Float.pi * 20 / 180
+        
+        let v0 = SCNVector3Zero
+        let v1 = SCNVector3Make(-side * sin(1.5*angle), side * cos(1.5*angle), 0)
+        let v2 = SCNVector3Make(-side * sin(0.5*angle), side * cos(0.5*angle), 0)
+        let v3 = SCNVector3Make(side * sin(0.5*angle), side * cos(0.5*angle), 0)
+        let v4 = SCNVector3Make(side * sin(1.5*angle), side * cos(1.5*angle), 0)
+        
+        let vertices = [v0, v1, v2, v3, v4]
+        
+        let sources = SCNGeometrySource(vertices: vertices)
+        let index: [Int32] = [
+            0, 1, 2,
+            0, 2, 3,
+            0, 3, 4
+        ]
+        
+        let elements = SCNGeometryElement(indices: index, primitiveType: .triangles)
+        
+        return SCNGeometry(sources: [sources], elements: [elements])
     }
 
     func contactTest() {
