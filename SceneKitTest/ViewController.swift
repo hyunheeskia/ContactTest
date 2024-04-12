@@ -70,20 +70,20 @@ class ViewController: UIViewController {
         
         let (center, radius) = fixedNode.boundingSphere
         
-        let physicsBodyNode = SCNNode()
-        physicsBodyNode.name = "fixedPhysics"
-        physicsBodyNode.position = center
-        physicsBodyNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: SCNSphere(radius: CGFloat(radius))))
-        fixedNode.addChildNode(physicsBodyNode)
+//        let physicsBodyNode = SCNNode()
+//        physicsBodyNode.name = "fixedPhysics"
+//        physicsBodyNode.position = center
+//        physicsBodyNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: SCNSphere(radius: CGFloat(radius))))
+//        fixedNode.addChildNode(physicsBodyNode)
         
         // physics
-//        fixedNode.physicsBody =
-//            SCNPhysicsBody(type: .static, shape:
+        fixedNode.physicsBody =
+            SCNPhysicsBody(type: .static, shape:
 //                            SCNPhysicsShape(geometry: smallSphereGeometry())
-        ////                            nil
-        ////                SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
+//                                    nil
+                        SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
         ////                           SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
-//            )
+            )
         
         rootNode.addChildNode(fixedNode)
     }
@@ -93,11 +93,11 @@ class ViewController: UIViewController {
         movableNode = SCNNode(geometry:
 //                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
 //                              smallLesionGeometry()
-//            smallShapeGeometry()
+            smallShapeGeometry()
 //                              pyramidGeometry()
 //                              smallSphereGeometry()
 //                              smallBoxGeometry()
-                              probeShapeGeometry()
+//                              probeShapeGeometry()
         )
         movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
@@ -106,8 +106,8 @@ class ViewController: UIViewController {
         // physics
         movableNode.physicsBody =
             SCNPhysicsBody(type: .static, shape:
-//                nil
-                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
+                nil
+//                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
 //                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
             )
         
@@ -116,7 +116,8 @@ class ViewController: UIViewController {
     
     func smallLesionGeometry() -> SCNGeometry {
 //        let fileName = "0.001_lesion"
-        let fileName = "not_origin_0.001_lesion"
+//        let fileName = "not_origin_0.001_lesion"
+        let fileName = "small_bone"
         guard let objFilePath = Bundle.main.path(forResource: fileName, ofType: "obj") else {
             fatalError("file path fail")
         }
@@ -155,8 +156,8 @@ class ViewController: UIViewController {
         // nil 정상 범위 감지
 //        return SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
 //        return SCNSphere(radius: 0.005)
-        return SCNPlane(width: 0.01, height: 0.05)
-        //        return SCNCylinder(radius: 0.01, height: 0.01)
+//        return SCNPlane(width: 0.01, height: 0.05)
+                return SCNCylinder(radius: 0.01, height: 0.1)
         //        return SCNTube(innerRadius: 0.005, outerRadius: 0.01, height: 0.005)
     }
 
