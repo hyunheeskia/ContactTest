@@ -117,7 +117,8 @@ class ViewController: UIViewController {
     func smallLesionGeometry() -> SCNGeometry {
 //        let fileName = "0.001_lesion"
 //        let fileName = "not_origin_0.001_lesion"
-        let fileName = "small_bone"
+//        let fileName = "small_bone"
+        let fileName = "small_artery"
         guard let objFilePath = Bundle.main.path(forResource: fileName, ofType: "obj") else {
             fatalError("file path fail")
         }
@@ -157,7 +158,7 @@ class ViewController: UIViewController {
 //        return SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
 //        return SCNSphere(radius: 0.005)
 //        return SCNPlane(width: 0.01, height: 0.05)
-                return SCNCylinder(radius: 0.01, height: 0.1)
+                return SCNCylinder(radius: 0.0005, height: 0.1)
         //        return SCNTube(innerRadius: 0.005, outerRadius: 0.01, height: 0.005)
     }
 
