@@ -60,8 +60,8 @@ class ViewController: UIViewController {
     func setupFixedNode() {
         // create node
         fixedNode = SCNNode(geometry:
-//                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
-            smallLesionGeometry()
+//            smallLesionGeometry()
+                            smallBoxGeometry()
 //                              pyramidGeometry()
         )
         fixedNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
@@ -79,9 +79,9 @@ class ViewController: UIViewController {
         // physics
         fixedNode.physicsBody =
             SCNPhysicsBody(type: .static, shape:
-//                            SCNPhysicsShape(geometry: smallSphereGeometry())
+                            SCNPhysicsShape(geometry: smallBoxGeometry())
 //                                    nil
-                        SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
+//                        SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
         ////                           SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
             )
         
@@ -90,27 +90,28 @@ class ViewController: UIViewController {
     
     func setupMovableNode() {
         // create node
-        movableNode = SCNNode(geometry:
+        movableNode = createLine(nodeA: SCNVector3(0.3, 0, -0.8), nodeB: SCNVector3(0.35, 0.1, -0.8), color: .blue, radius: 0.001)
+//        movableNode = SCNNode(geometry:
 //                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
 //                              smallLesionGeometry()
-            smallShapeGeometry()
+//            smallShapeGeometry()
 //                              pyramidGeometry()
 //                              smallSphereGeometry()
 //                              smallBoxGeometry()
 //                              probeShapeGeometry()
-        )
-        movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+//        )
+//        movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
         movableNode.position = SCNVector3(0.3, 0, -0.8)
 
         // physics
-        movableNode.physicsBody =
-            SCNPhysicsBody(type: .static, shape:
+//        movableNode.physicsBody =
+//            SCNPhysicsBody(type: .static, shape:
 //                nil
 //                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
 //                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
-                           SCNPhysicsShape(geometry: smallShapeGeometry())
-            )
+//                           SCNPhysicsShape(geometry: smallShapeGeometry())
+//            )
         
         rootNode.addChildNode(movableNode)
     }
@@ -312,5 +313,25 @@ class ViewController: UIViewController {
         }
         
         contactTest()
+    }
+    
+    func createLine(nodeA: SCNVector3, nodeB: SCNVector3, color: UIColor, radius: Float) -> SCNNode {
+        let height = sqrt(pow(nodeA.x - nodeB.x, 2) + pow(nodeA.y - nodeB.y, 2) + pow(nodeA.z - nodeB.z, 2))
+        let cylinder = SCNCylinder(radius: CGFloat(radius), height: CGFloat(height))
+        cylinder.firstMaterial?.diffuse.contents = color
+        let node = SCNNode(geometry: cylinder)
+        node.physicsBody = SCNPhysicsBody(
+            type: .static,
+            shape: SCNPhysicsShape(
+                geometry: cylinder,
+                options: [
+                    SCNPhysicsShape.Option.scale : SCNVector3(x: 1, y: 1, z: 1)
+                ]
+            )
+        )
+
+        node.position = SCNVector3Make((nodeA.x + nodeB.x) / 2, (nodeA.y + nodeB.y) / 2, (nodeA.z + nodeB.z) / 2)
+        node.eulerAngles = SCNVector3Make(Float(Double.pi / 2), acos((nodeB.z - nodeA.z) / height), atan2(nodeB.y - nodeA.y, nodeB.x - nodeA.x))
+        return node
     }
 }
