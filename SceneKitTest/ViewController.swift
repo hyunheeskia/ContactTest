@@ -106,9 +106,10 @@ class ViewController: UIViewController {
         // physics
         movableNode.physicsBody =
             SCNPhysicsBody(type: .static, shape:
-                nil
+//                nil
 //                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.concavePolyhedron])
 //                           SCNPhysicsShape(node: movableNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
+                           SCNPhysicsShape(geometry: smallShapeGeometry())
             )
         
         rootNode.addChildNode(movableNode)
