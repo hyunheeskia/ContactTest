@@ -222,44 +222,91 @@ class ViewController: UIViewController {
     }
     
     func setupUI() {
-        let xSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 720), size: CGSize(width: 900, height: 20)))
-        let ySlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 760), size: CGSize(width: 900, height: 20)))
-        let zSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 800), size: CGSize(width: 900, height: 20)))
-
-        let range: Float = 0.5
-
-        let xInitial = movableNode.position.x
-        xSlider.tag = 0
-        xSlider.minimumValue = xInitial - range
-        xSlider.maximumValue = xInitial + range
-        xSlider.value = xInitial
-
-        let yInitial = movableNode.position.y
-        ySlider.tag = 1
-        ySlider.minimumValue = yInitial - range
-        ySlider.maximumValue = yInitial + range
-        ySlider.value = yInitial
-
-        let zInitial = movableNode.position.z
-        zSlider.tag = 2
-        zSlider.minimumValue = zInitial - range
-        zSlider.maximumValue = zInitial + range
-        zSlider.value = zInitial
+        // ============== position ==============
         
-        xSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-        ySlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-        zSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-
-        view.addSubview(xSlider)
-        view.addSubview(ySlider)
-        view.addSubview(zSlider)
+        let xpSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 720), size: CGSize(width: 900, height: 20)))
+        let ypSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 760), size: CGSize(width: 900, height: 20)))
+        let zpSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 800), size: CGSize(width: 900, height: 20)))
+        
+        let pRange: Float = 0.5
+        
+        let xpInitial = movableNode.position.x
+        xpSlider.tag = 0
+        xpSlider.minimumValue = xpInitial - pRange
+        xpSlider.maximumValue = xpInitial + pRange
+        xpSlider.value = xpInitial
+        
+        let ypInitial = movableNode.position.y
+        ypSlider.tag = 1
+        ypSlider.minimumValue = ypInitial - pRange
+        ypSlider.maximumValue = ypInitial + pRange
+        ypSlider.value = ypInitial
+        
+        let zpInitial = movableNode.position.z
+        zpSlider.tag = 2
+        zpSlider.minimumValue = zpInitial - pRange
+        zpSlider.maximumValue = zpInitial + pRange
+        zpSlider.value = zpInitial
+        
+        xpSlider.addTarget(self, action: #selector(pSliderValueChanged(_:)), for: .valueChanged)
+        ypSlider.addTarget(self, action: #selector(pSliderValueChanged(_:)), for: .valueChanged)
+        zpSlider.addTarget(self, action: #selector(pSliderValueChanged(_:)), for: .valueChanged)
+        
+        view.addSubview(xpSlider)
+        view.addSubview(ypSlider)
+        view.addSubview(zpSlider)
+        
+        // ============== rotation ==============
+        
+        let xrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 30), size: CGSize(width: 900, height: 20)))
+        let yrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 70), size: CGSize(width: 900, height: 20)))
+        let zrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 110), size: CGSize(width: 900, height: 20)))
+        
+        let rRange = Float.pi / 2
+        
+        let xrInitial: Float = 0
+        xrSlider.tag = 0
+        xrSlider.minimumValue = xrInitial - rRange
+        xrSlider.maximumValue = xrInitial + rRange
+        xrSlider.value = xrInitial
+        
+        let yrInitial: Float = 0
+        yrSlider.tag = 1
+        yrSlider.minimumValue = yrInitial - rRange
+        yrSlider.maximumValue = yrInitial + rRange
+        yrSlider.value = yrInitial
+        
+        let zrInitial: Float = 0
+        zrSlider.tag = 2
+        zrSlider.minimumValue = zrInitial - rRange
+        zrSlider.maximumValue = zrInitial + rRange
+        zrSlider.value = zrInitial
+        
+        xrSlider.addTarget(self, action: #selector(rSliderValueChanged(_:)), for: .valueChanged)
+        yrSlider.addTarget(self, action: #selector(rSliderValueChanged(_:)), for: .valueChanged)
+        zrSlider.addTarget(self, action: #selector(rSliderValueChanged(_:)), for: .valueChanged)
+        
+        view.addSubview(xrSlider)
+        view.addSubview(yrSlider)
+        view.addSubview(zrSlider)
     }
     
-    @objc func sliderValueChanged(_ sender: UISlider) {
+    @objc func pSliderValueChanged(_ sender: UISlider) {
         switch sender.tag {
         case 0: movableNode.position = SCNVector3(sender.value, movableNode.position.y, movableNode.position.z)
         case 1: movableNode.position = SCNVector3(movableNode.position.x, sender.value, movableNode.position.z)
         case 2: movableNode.position = SCNVector3(movableNode.position.x, movableNode.position.y, sender.value)
+        default: break
+        }
+        
+        contactTest()
+    }
+    
+    @objc func rSliderValueChanged(_ sender: UISlider) {
+        switch sender.tag {
+        case 0: movableNode.eulerAngles = SCNVector3(sender.value, movableNode.eulerAngles.y, movableNode.eulerAngles.z)
+        case 1: movableNode.eulerAngles = SCNVector3(movableNode.eulerAngles.x, sender.value, movableNode.eulerAngles.z)
+        case 2: movableNode.eulerAngles = SCNVector3(movableNode.eulerAngles.x, movableNode.eulerAngles.y, sender.value)
         default: break
         }
         
