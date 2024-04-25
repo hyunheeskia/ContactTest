@@ -76,7 +76,7 @@ class ViewController: UIViewController {
         fixedNode.name = "fixed"
         fixedNode.position = SCNVector3(0, 0, -0.8)
         
-        let (center, radius) = fixedNode.boundingSphere
+//        let (center, radius) = fixedNode.boundingSphere
         
 //        let physicsBodyNode = SCNNode()
 //        physicsBodyNode.name = "fixedPhysics"
@@ -112,7 +112,7 @@ class ViewController: UIViewController {
 //                              probeShapeGeometry()
 //        )
 //        movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-        movableNode.name = "movable"
+//        movableNode.name = "movable"
 //        movableNode.position = SCNVector3(0.3, 0, -0.8)
 
         // physics
@@ -238,76 +238,73 @@ class ViewController: UIViewController {
     }
     
     func setupUI() {
-        // ============== position ==============
+        // ============== a ==============
+        let axSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 720), size: CGSize(width: 900, height: 20)))
+        let aySlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 760), size: CGSize(width: 900, height: 20)))
+        let azSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 800), size: CGSize(width: 900, height: 20)))
         
-        let xpSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 720), size: CGSize(width: 900, height: 20)))
-        let ypSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 760), size: CGSize(width: 900, height: 20)))
-        let zpSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 800), size: CGSize(width: 900, height: 20)))
+        let range: Float = 0.5
         
-        let pRange: Float = 0.5
+        let axInitial = lineNodeA.x
+        axSlider.tag = 0
+        axSlider.minimumValue = axInitial - range
+        axSlider.maximumValue = axInitial + range
+        axSlider.value = axInitial
         
-        let xpInitial = lineNodeA.x
-        xpSlider.tag = 0
-        xpSlider.minimumValue = xpInitial - pRange
-        xpSlider.maximumValue = xpInitial + pRange
-        xpSlider.value = xpInitial
+        let ayInitial = lineNodeA.y
+        aySlider.tag = 1
+        aySlider.minimumValue = ayInitial - range
+        aySlider.maximumValue = ayInitial + range
+        aySlider.value = ayInitial
         
-        let ypInitial = lineNodeA.y
-        ypSlider.tag = 1
-        ypSlider.minimumValue = ypInitial - pRange
-        ypSlider.maximumValue = ypInitial + pRange
-        ypSlider.value = ypInitial
+        let azInitial = lineNodeA.z
+        azSlider.tag = 2
+        azSlider.minimumValue = azInitial - range
+        azSlider.maximumValue = azInitial + range
+        azSlider.value = azInitial
         
-        let zpInitial = lineNodeA.z
-        zpSlider.tag = 2
-        zpSlider.minimumValue = zpInitial - pRange
-        zpSlider.maximumValue = zpInitial + pRange
-        zpSlider.value = zpInitial
+        axSlider.addTarget(self, action: #selector(aSliderValueChanged(_:)), for: .valueChanged)
+        aySlider.addTarget(self, action: #selector(aSliderValueChanged(_:)), for: .valueChanged)
+        azSlider.addTarget(self, action: #selector(aSliderValueChanged(_:)), for: .valueChanged)
         
-        xpSlider.addTarget(self, action: #selector(pSliderValueChanged(_:)), for: .valueChanged)
-        ypSlider.addTarget(self, action: #selector(pSliderValueChanged(_:)), for: .valueChanged)
-        zpSlider.addTarget(self, action: #selector(pSliderValueChanged(_:)), for: .valueChanged)
+        view.addSubview(axSlider)
+        view.addSubview(aySlider)
+        view.addSubview(azSlider)
         
-        view.addSubview(xpSlider)
-        view.addSubview(ypSlider)
-        view.addSubview(zpSlider)
+        // ============== b ==============
         
-        // ============== rotation ==============
+        let bxSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 30), size: CGSize(width: 900, height: 20)))
+        let bySlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 70), size: CGSize(width: 900, height: 20)))
+        let bzSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 110), size: CGSize(width: 900, height: 20)))
         
-        let xrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 30), size: CGSize(width: 900, height: 20)))
-        let yrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 70), size: CGSize(width: 900, height: 20)))
-        let zrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 110), size: CGSize(width: 900, height: 20)))
+        let bxInitial: Float = lineNodeB.x
+        bxSlider.tag = 0
+        bxSlider.minimumValue = bxInitial - range
+        bxSlider.maximumValue = bxInitial + range
+        bxSlider.value = bxInitial
         
-        let rRange: Float = 0.5 // Float.pi / 2
+        let byInitial: Float = lineNodeB.y
+        bySlider.tag = 1
+        bySlider.minimumValue = byInitial - range
+        bySlider.maximumValue = byInitial + range
+        bySlider.value = byInitial
         
-        let xrInitial: Float = lineNodeB.x
-        xrSlider.tag = 0
-        xrSlider.minimumValue = xrInitial - rRange
-        xrSlider.maximumValue = xrInitial + rRange
-        xrSlider.value = xrInitial
+        let bzInitial: Float = lineNodeB.z
+        bzSlider.tag = 2
+        bzSlider.minimumValue = bzInitial - range
+        bzSlider.maximumValue = bzInitial + range
+        bzSlider.value = bzInitial
         
-        let yrInitial: Float = lineNodeB.y
-        yrSlider.tag = 1
-        yrSlider.minimumValue = yrInitial - rRange
-        yrSlider.maximumValue = yrInitial + rRange
-        yrSlider.value = yrInitial
+        bxSlider.addTarget(self, action: #selector(bSliderValueChanged(_:)), for: .valueChanged)
+        bySlider.addTarget(self, action: #selector(bSliderValueChanged(_:)), for: .valueChanged)
+        bzSlider.addTarget(self, action: #selector(bSliderValueChanged(_:)), for: .valueChanged)
         
-        let zrInitial: Float = lineNodeB.z
-        zrSlider.tag = 2
-        zrSlider.minimumValue = zrInitial - rRange
-        zrSlider.maximumValue = zrInitial + rRange
-        zrSlider.value = zrInitial
-        
-        xrSlider.addTarget(self, action: #selector(rSliderValueChanged(_:)), for: .valueChanged)
-        yrSlider.addTarget(self, action: #selector(rSliderValueChanged(_:)), for: .valueChanged)
-        zrSlider.addTarget(self, action: #selector(rSliderValueChanged(_:)), for: .valueChanged)
-        
-        view.addSubview(xrSlider)
-        view.addSubview(yrSlider)
-        view.addSubview(zrSlider)
+        view.addSubview(bxSlider)
+        view.addSubview(bySlider)
+        view.addSubview(bzSlider)
     }
     
-    @objc func pSliderValueChanged(_ sender: UISlider) {
+    @objc func aSliderValueChanged(_ sender: UISlider) {
         switch sender.tag {
         case 0: lineNodeA = SCNVector3(sender.value, lineNodeA.y, lineNodeA.z)
         case 1: lineNodeA = SCNVector3(lineNodeA.x, sender.value, lineNodeA.z)
@@ -322,7 +319,7 @@ class ViewController: UIViewController {
         contactTest()
     }
     
-    @objc func rSliderValueChanged(_ sender: UISlider) {
+    @objc func bSliderValueChanged(_ sender: UISlider) {
         switch sender.tag {
         case 0: lineNodeB = SCNVector3(sender.value, lineNodeB.y, lineNodeB.z)
         case 1: lineNodeB = SCNVector3(lineNodeB.x, sender.value, lineNodeB.z)
