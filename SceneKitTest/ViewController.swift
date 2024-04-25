@@ -10,8 +10,8 @@ import SceneKit.ModelIO
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet var scnView: SCNView!
-    @IBOutlet var consoleLabel: UILabel!
+    var scnView: SCNView!
+    var consoleLabel: UILabel!
     
     var rootNode: SCNNode!
     
@@ -33,13 +33,21 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupView()
         setupScene()
 
         setupFixedNode()
         setupMovableNode()
         
         setupUI()
+    }
+    
+    func setupView() {
+        scnView = SCNView(frame: view.frame)
+        view.addSubview(scnView)
+        consoleLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 200, height: view.frame.height)))
+        consoleLabel.backgroundColor = .gray
+        view.addSubview(consoleLabel)
     }
     
     func setupScene() {
