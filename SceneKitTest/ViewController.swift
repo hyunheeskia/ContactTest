@@ -88,9 +88,12 @@ class ViewController: UIViewController {
         rootNode.addChildNode(fixedNode)
     }
     
+    var lineNodeA = SCNVector3(0.3, 0, -0.8)
+    var lineNodeB = SCNVector3(0.35, 0.1, -0.8)
+    
     func setupMovableNode() {
         // create node
-        movableNode = createLine(nodeA: SCNVector3(0.3, 0, -0.8), nodeB: SCNVector3(0.35, 0.1, -0.8), color: .blue, radius: 0.001)
+        movableNode = createLine(nodeA: lineNodeA, nodeB: lineNodeB, color: .blue, radius: 0.001)
 //        movableNode = SCNNode(geometry:
 //                                SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
 //                              smallLesionGeometry()
@@ -102,7 +105,7 @@ class ViewController: UIViewController {
 //        )
 //        movableNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         movableNode.name = "movable"
-        movableNode.position = SCNVector3(0.3, 0, -0.8)
+//        movableNode.position = SCNVector3(0.3, 0, -0.8)
 
         // physics
 //        movableNode.physicsBody =
@@ -199,28 +202,31 @@ class ViewController: UIViewController {
         
         SCNTransaction.flush()
         
-        guard let physicsBody = movableNode?.physicsBody,
+        guard let movablePhysicsBody = movableNode?.physicsBody,
+              let fixedPhysicsBody = fixedNode?.physicsBody,
               let scene = scnView.scene else { return }
         
-        let physicsContactList = scene.physicsWorld.contactTest(with: physicsBody)
+        let physicsContactList = scene.physicsWorld.contactTestBetween(movablePhysicsBody, fixedPhysicsBody)
         
-        var contactPairList = [ContactPair]()
-        for contact in physicsContactList {
-            guard let nameA = contact.nodeA.name,
-                  let nameB = contact.nodeB.name else { continue }
-            
-            let contactPair = ContactPair(nodeA: nameA, nodeB: nameB)
-            
-            if !contactPairList.contains(contactPair) {
-                contactPairList.append(contactPair)
-            }
-        }
+//        var contactPairList = [ContactPair]()
+//        for contact in physicsContactList {
+//            guard let nameA = contact.nodeA.name,
+//                  let nameB = contact.nodeB.name else { continue }
+//            
+//            let contactPair = ContactPair(nodeA: nameA, nodeB: nameB)
+//            
+//            if !contactPairList.contains(contactPair) {
+//                contactPairList.append(contactPair)
+//            }
+//        }
+//        
+//        var contactText = ""
+//        for pair in contactPairList {
+//            contactText += "\(pair.nodeA), \(pair.nodeB)\n"
+//        }
+//        consoleLabel.text = contactText
         
-        var contactText = ""
-        for pair in contactPairList {
-            contactText += "\(pair.nodeA), \(pair.nodeB)\n"
-        }
-        consoleLabel.text = contactText
+        consoleLabel.text = "contact: \(!physicsContactList.isEmpty)"
     }
     
     func setupUI() {
@@ -232,19 +238,19 @@ class ViewController: UIViewController {
         
         let pRange: Float = 0.5
         
-        let xpInitial = movableNode.position.x
+        let xpInitial = lineNodeA.x
         xpSlider.tag = 0
         xpSlider.minimumValue = xpInitial - pRange
         xpSlider.maximumValue = xpInitial + pRange
         xpSlider.value = xpInitial
         
-        let ypInitial = movableNode.position.y
+        let ypInitial = lineNodeA.y
         ypSlider.tag = 1
         ypSlider.minimumValue = ypInitial - pRange
         ypSlider.maximumValue = ypInitial + pRange
         ypSlider.value = ypInitial
         
-        let zpInitial = movableNode.position.z
+        let zpInitial = lineNodeA.z
         zpSlider.tag = 2
         zpSlider.minimumValue = zpInitial - pRange
         zpSlider.maximumValue = zpInitial + pRange
@@ -264,21 +270,21 @@ class ViewController: UIViewController {
         let yrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 70), size: CGSize(width: 900, height: 20)))
         let zrSlider = UISlider(frame: CGRect(origin: CGPoint(x: 250, y: 110), size: CGSize(width: 900, height: 20)))
         
-        let rRange = Float.pi / 2
+        let rRange: Float = 0.5 // Float.pi / 2
         
-        let xrInitial: Float = 0
+        let xrInitial: Float = lineNodeB.x
         xrSlider.tag = 0
         xrSlider.minimumValue = xrInitial - rRange
         xrSlider.maximumValue = xrInitial + rRange
         xrSlider.value = xrInitial
         
-        let yrInitial: Float = 0
+        let yrInitial: Float = lineNodeB.y
         yrSlider.tag = 1
         yrSlider.minimumValue = yrInitial - rRange
         yrSlider.maximumValue = yrInitial + rRange
         yrSlider.value = yrInitial
         
-        let zrInitial: Float = 0
+        let zrInitial: Float = lineNodeB.z
         zrSlider.tag = 2
         zrSlider.minimumValue = zrInitial - rRange
         zrSlider.maximumValue = zrInitial + rRange
@@ -295,22 +301,30 @@ class ViewController: UIViewController {
     
     @objc func pSliderValueChanged(_ sender: UISlider) {
         switch sender.tag {
-        case 0: movableNode.position = SCNVector3(sender.value, movableNode.position.y, movableNode.position.z)
-        case 1: movableNode.position = SCNVector3(movableNode.position.x, sender.value, movableNode.position.z)
-        case 2: movableNode.position = SCNVector3(movableNode.position.x, movableNode.position.y, sender.value)
+        case 0: lineNodeA = SCNVector3(sender.value, lineNodeA.y, lineNodeA.z)
+        case 1: lineNodeA = SCNVector3(lineNodeA.x, sender.value, lineNodeA.z)
+        case 2: lineNodeA = SCNVector3(lineNodeA.x, lineNodeA.y, sender.value)
         default: break
         }
+        
+        movableNode.removeFromParentNode()
+        movableNode = createLine(nodeA: lineNodeA, nodeB: lineNodeB, color: .blue, radius: 0.001)
+        rootNode.addChildNode(movableNode)
         
         contactTest()
     }
     
     @objc func rSliderValueChanged(_ sender: UISlider) {
         switch sender.tag {
-        case 0: movableNode.eulerAngles = SCNVector3(sender.value, movableNode.eulerAngles.y, movableNode.eulerAngles.z)
-        case 1: movableNode.eulerAngles = SCNVector3(movableNode.eulerAngles.x, sender.value, movableNode.eulerAngles.z)
-        case 2: movableNode.eulerAngles = SCNVector3(movableNode.eulerAngles.x, movableNode.eulerAngles.y, sender.value)
+        case 0: lineNodeB = SCNVector3(sender.value, lineNodeB.y, lineNodeB.z)
+        case 1: lineNodeB = SCNVector3(lineNodeB.x, sender.value, lineNodeB.z)
+        case 2: lineNodeB = SCNVector3(lineNodeB.x, lineNodeB.y, sender.value)
         default: break
         }
+
+        movableNode.removeFromParentNode()
+        movableNode = createLine(nodeA: lineNodeA, nodeB: lineNodeB, color: .blue, radius: 0.001)
+        rootNode.addChildNode(movableNode)
         
         contactTest()
     }
