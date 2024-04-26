@@ -13,7 +13,9 @@ class ViewController: UIViewController {
     var scnView: SCNView!
     var consoleLabel: UILabel!
     
-    var rootNode: SCNNode!
+//    var rootNode: SCNNode!
+    var scaleNode: SCNNode!
+    let scale: Float = 0.8
     
     var fixedNode: SCNNode!
     var movableNode: SCNNode!
@@ -62,7 +64,12 @@ class ViewController: UIViewController {
         scnView.debugOptions = [.showPhysicsShapes]
         
         // rootNode
-        rootNode = scnView.scene!.rootNode
+        let rootNode = scnView.scene!.rootNode
+        
+        // scaleNode
+        scaleNode = SCNNode()
+        rootNode.addChildNode(scaleNode)
+        scaleNode.scale = SCNVector3(scale, scale, scale)
     }
     
     func setupFixedNode() {
@@ -87,13 +94,15 @@ class ViewController: UIViewController {
         // physics
         fixedNode.physicsBody =
             SCNPhysicsBody(type: .static, shape:
-                            SCNPhysicsShape(geometry: smallBoxGeometry())
+                            SCNPhysicsShape(geometry: smallBoxGeometry(), options: [
+                                SCNPhysicsShape.Option.scale : scaleNode.scale
+                            ])
 //                                    nil
 //                        SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
         ////                           SCNPhysicsShape(node: fixedNode, options: [SCNPhysicsShape.Option.type : SCNPhysicsShape.ShapeType.boundingBox])
             )
         
-        rootNode.addChildNode(fixedNode)
+        scaleNode.addChildNode(fixedNode)
     }
     
     var lineNodeA = SCNVector3(0.3, 0, -0.8)
@@ -124,7 +133,7 @@ class ViewController: UIViewController {
 //                           SCNPhysicsShape(geometry: smallShapeGeometry())
 //            )
         
-        rootNode.addChildNode(movableNode)
+        scaleNode.addChildNode(movableNode)
     }
     
     func smallLesionGeometry() -> SCNGeometry {
@@ -314,7 +323,7 @@ class ViewController: UIViewController {
         
         movableNode.removeFromParentNode()
         movableNode = createLine(nodeA: lineNodeA, nodeB: lineNodeB, color: .blue, radius: 0.001)
-        rootNode.addChildNode(movableNode)
+        scaleNode.addChildNode(movableNode)
         
         contactTest()
     }
@@ -329,7 +338,7 @@ class ViewController: UIViewController {
 
         movableNode.removeFromParentNode()
         movableNode = createLine(nodeA: lineNodeA, nodeB: lineNodeB, color: .blue, radius: 0.001)
-        rootNode.addChildNode(movableNode)
+        scaleNode.addChildNode(movableNode)
         
         contactTest()
     }
@@ -344,7 +353,7 @@ class ViewController: UIViewController {
             shape: SCNPhysicsShape(
                 geometry: cylinder,
                 options: [
-                    SCNPhysicsShape.Option.scale : SCNVector3(x: 1, y: 1, z: 1)
+                    SCNPhysicsShape.Option.scale : scaleNode.scale,
                 ]
             )
         )
